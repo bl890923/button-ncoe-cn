@@ -3,313 +3,512 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUTTON 中文官方网站</title>
+    <title>懒得取名 ᗜ ˰ ᗜ</title>
+    <link rel="icon" href="img/logo/1.gif" type="image/gif">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 自定义字体 */
+        @font-face {
+            font-family: 'MyCustomFont';
+            src: url('/fonts/1.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        /* 全局样式重置和字体设置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'MyCustomFont', 'Segoe UI', 'Arial', sans-serif;
         }
-
+        
+        /* 页面主题样式 */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
+            background: linear-gradient(135deg, #92a3de00, #66b1dc00), url(img/bg/2.png) no-repeat center center fixed;
+            background-size: cover;
+            background-blend-mode: overlay;
             display: flex;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .container {
-            text-align: center;
-            z-index: 2;
+            justify-content: center;
             padding: 20px;
         }
-
-        .button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            padding: 15px 40px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .button:active {
-            transform: translateY(0);
-        }
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        
+        /* 容器样式 */
+        .container { 
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: 0.5s;
+            max-width: 850px;
+            padding: 20px;
+        }
+        
+        /* 玻璃卡片样式 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 50px 70px;
+            text-align: center;
+            color: #222;
+            width: 100%;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        /* 鼠标悬停时玻璃卡片样式 */
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+        }
+        
+        /* 头像样式 */
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+            /* 鼠标悬停时头像变化 */
+        .avatar:hover {
+            transform: scale(1.05);
+            border-color: rgba(0, 60, 255, 0.8);
+            cursor: pointer;
         }
 
-        .button:hover::before {
-            left: 100%;
+        a {
+             color: rgb(0, 0, 0);
+            text-decoration: none; /*去掉下划线*/
+        }
+            /* 设置已访问链接的颜色为白色 */
+        a:visited {
+            color: rgb(222, 222, 222);
+        }
+        
+            /* 鼠标悬停时的颜色 */
+        a:hover {
+            color: rgb(64, 142,219);
+         /* text-decoration: underline; 添加下划线 */
+        }
+        /* 激活状态的颜色 */
+        a:active {
+            color: rgb(222, 222, 222);
+        }
+        
+        /* 标题样式 */
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 2.4em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #000000;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 副标题样式 */
+        h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 段落样式 */
+        p {
+            margin: 0 0 25px 0;
+            font-size: 1.2em;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        /* 突出显示文本样式 */
+        .highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        /* 连接容器样式 */
+        .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        /* 单个链接样式 */
+        .links a {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 8px;
+            padding: 12px 25px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.25);
+            color: #575264;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 链接内图标样式 */
+        .links a i {
+            margin-right: 8px;
+        }
+        
+        /* 鼠标悬停时变化 */
+        .links a:hover {
+            background: rgba(112, 104, 104, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 标签容器样式 */
+        .skills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        /* 单个标签样式 */
+        .skill-tag {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 0.9em;
+            border: 1px solid rgba(90, 91, 102, 0.2);
         }
 
-        .modal {
+        /* 底部文字样式 */
+            .baa{
+            color: #dddddd;
+            font-size: 1em;
+            font-weight: 600;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* 隐藏图片，直到按钮被点击 */
+        .popup-image {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        /* 设置图片的最大尺寸 */
+        .popup-image img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* 弹出图片时的背景层 */
+        .overlay {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }   
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            animation: zoomIn 0.3s ease;
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
+        /* 鼠标悬停时指针样式 */
+        .pointer-cursor {
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .close:hover {
-            color: #ff5252;
-            transform: rotate(90deg);
+        /* 悬浮图片鼠标悬停样式 */
+        .floating-image{
+            cursor: pointer;
         }
+        /* 悬浮图片点击缩放1.2倍 */
+        .floating-image:active {
+           transform: scale(1.2);
+       }
+       /* 悬浮图片默认样式 */
+       .floating-image:inactive {
+           transform: scale(0.8);
+           cursor: pointer;
+       }
 
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
+       /* 赞赏按钮图片样式 */
+       .zanshang-image {
+        width: 50px; /* 设置图片宽度 */
+        height: 50%; /* 设置图片高度 */
+        border-radius: 23%; /* 设置圆角半径为50%，产生圆形效果 */
+        /* overflow: hidden; 隐藏超出圆形边界的部分 */
+        /* position: relative; 相对定位 */
+        transform: scale(1.25);
         }
-
-        .floating-elements div {
-            position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            animation: float 25s linear infinite;
-            bottom: -150px;
-            border-radius: 50%;
+        /* 赞赏按钮图片放大 */
+        .zanshang-image:hover {
+            transform: scale(1.3); /* 鼠标悬停时放大1.1倍 */
         }
-
-        .floating-elements div:nth-child(1) {
-            left: 25%;
-            width: 80px;
-            height: 80px;
-            animation-delay: 0s;
-        }
-
-        .floating-elements div:nth-child(2) {
-            left: 10%;
-            width: 20px;
-            height: 20px;
-            animation-delay: 2s;
-            animation-duration: 12s;
-        }
-
-        .floating-elements div:nth-child(3) {
-            left: 70%;
-            width: 20px;
-            height: 20px;
-            animation-delay: 4s;
-        }
-
-        .floating-elements div:nth-child(4) {
-            left: 40%;
-            width: 60px;
-            height: 60px;
-            animation-delay: 0s;
-            animation-duration: 18s;
-        }
-
-        .floating-elements div:nth-child(5) {
-            left: 65%;
-            width: 20px;
-            height: 20px;
-            animation-delay: 0s;
-        }
-
-        .floating-elements div:nth-child(6) {
-            left: 75%;
-            width: 110px;
-            height: 110px;
-            animation-delay: 3s;
-        }
-
-        .floating-elements div:nth-child(7) {
-            left: 35%;
-            width: 150px;
-            height: 150px;
-            animation-delay: 7s;
-        }
-
-        .floating-elements div:nth-child(8) {
-            left: 50%;
-            width: 25px;
-            height: 25px;
-            animation-delay: 15s;
-            animation-duration: 45s;
-        }
-
-        .floating-elements div:nth-child(9) {
-            left: 20%;
-            width: 15px;
-            height: 15px;
-            animation-delay: 2s;
-            animation-duration: 35s;
-        }
-
-        .floating-elements div:nth-child(10) {
-            left: 85%;
-            width: 150px;
-            height: 150px;
-            animation-delay: 0s;
-            animation-duration: 11s;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-                border-radius: 0;
-            }
-            100% {
-                transform: translateY(-1000px) rotate(720deg);
+        
+        /* 渐显动画效果 */
+        @keyframes fadeIn {
+            from {
                 opacity: 0;
-                border-radius: 50%;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
+        /* 中等屏幕尺寸下的样式调整 */
         @media (max-width: 768px) {
-            .button {
-                padding: 12px 30px;
-                font-size: 16px;
+            .glass-card {
+                padding: 30px 40px;
             }
             
-            .close {
-                font-size: 30px;
-                top: 15px;
-                right: 20px;
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.6em;
+            }
+            
+            p {
+                font-size: 1.1em;
+            }
+            
+            .links a {
+                padding: 10px 20px;
             }
         }
-    </style>
-</head>
-<body>
-    <div class="floating-elements">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    
-    <div class="container">
-        <button class="button" id="showImageBtn">button</button>
-    </div>
+        
+        /* 小屏幕尺寸下的样式调整 */
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 25px 30px;
+            }
+            
+            .avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+            
 
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage" src="http://img8.dfco.cn/button/button.jpg" alt="展示图片">
-    </div>
+            .links {
+                flex-direction: column;/*设置链接容器垂直方向排列*/
+                align-items: center;/*设置链接容器内子元素垂直方向居中*/
+            }
+            
+            .links a {
+                width: 100%;/*设置链接宽度宽度为100%*/
+                justify-content: center;/*设置链接内容水平方向居中*/
+            }
+        }
+
+        /* 动态悬浮图片框 */
+        .floating-image {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 100px;
+                height: auto;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+        }
+        .floating-image.visible {
+                opacity: 1;
+        }
+
+        #mybutton {
+                background: transparent; /* 按钮背景透明 */
+                border: none; /* 边框透明 */
+                outline: none; /* 点击后无边框 */
+            }
+
+    </style>
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script><!-- 引入一言脚本 -->
+</head>
+        
+<body>
+    <div class="container"><!-- 主容器 -->
+        <object data="index-2.html" top="20" left="10" type=""></object>
+        <div class="glass-card"><!-- 第一个玻璃卡片 -->
+            <button onclick="window.location.href='index-3.html'" id="mybutton">
+                <img class="avatar" src="img/ProfPic/1.jpg" alt="头像">
+            </button>
+            <h2>lecherous-Afraid of ghosts-Likes looking at legs</h2>
+            <p>前端 | Blue </p>
+            <p id="hitokoto">
+            <a href="#" id="hitokoto_text">:D 获取中...</a>
+            </p>
+            <div class="links">
+                <a href="mailto:2658997816@qq.com"><i class="fas fa-envelope"></i>邮箱</a>
+                <a href="https://v.douyin.com/MjO6gtSelJQ/"><i class="fab fa-tiktok"></i>抖音</a>
+                <a href="https://v.kuaishou.com/JxZnn7h3"><i class="fas fa-video"></i>快手</a>
+                <a href="https://t.me/Ang258258"><i class="fab fa-telegram"></i>Telegram</a>
+            </div>
+        </div>
+        
+        <div class="glass-card"><!-- 第二个玻璃卡片 -->
+            <h2>About</h2>
+            <p>省略<span class="highlight">凑字凑字凑字凑字</span>省略</p>
+                <p>
+                    这世间没有绝境<br/>
+                    只有对处境绝望的人<br/>
+                    解决问题的答案就在我们自己的手中<br/>
+                    当审视内心时<br/>
+                    便会发现奇迹伟力就在我身<br/>
+                    发现自己，认识自己，靠自己<br/>
+                </p>
+                <hr/><br>
+                <p>
+                    我曾经呐喊过，渐渐的我不发出声音。<br/>
+                    我曾经哭泣过，渐渐的我不再流泪。<br/>
+                    我曾经悲伤过，渐渐的我能承受一切。<br/>
+                    我曾经喜悦过，渐渐的我看淡世间。<br/>
+                    我曾经感动过，渐渐的我不再感动。<br/>
+                    而如今,我只剩下面无表情<br/>
+                    我的目光如磐石般坚硬，我的心中剩下坚持!<br/>
+                </p>
+        </div>
+        
+        <div class="glass-card"><!-- 第三个玻璃卡片 -->
+            <h2>Skill</h2>
+            <button onclick="toggleImage()" class="pointer-cursor">
+                <img src="img/logo/3.gif"  class="zanshang-image"  alt="加载不出来"   title="打赏">
+            </button>
+            <div class="skills">
+                <div class="skill-tag">HTML/CSS</div>   
+                <div class="skill-tag">JavaScript</div>
+                <div class="skill-tag">Vue.js</div>
+                <div class="skill-tag">TypeScript</div> 
+                <div class="skill-tag">Node.js</div>
+                <div class="skill-tag">Python</div>
+            </div>
+
+        </div>
+        
+                
+        <!-- 背景层 -->
+        <div class="overlay" onclick="toggleImage()"></div>
+
+        <!-- 弹出的图片 -->
+        <div class="popup-image">
+            <img src="img/laa/1.jpg" alt="赞赏码">
+        </div>
+
+        <div class="baa">
+            <h4>
+                <i class="fas fa-shopping-cart">商店:</i>
+                <a href="https://h5.lot-ml.com/ProductEn/Index/e00550774205a3f5">我不是卡神</a>
+                <a href="https://h5.gantanhao.com/?timestamp=1743511677638&from=3%40C%40%40FptD%3FCD%3F%3BGppD%3BBoBA%3BpDGA%3BBrsFtFsrGt%3Es3%40C%40%40">卡布奇诺</a>
+            </h4>
+            
+            <p style="font-size: KaiTi; font-size: 16px; color: #dddddd;">那年冬天，我们就在这里遇见</p>
+             <!-- 运行时间 -->
+            <div id="time">
+                <span id="runtime_span" style="color: rgb(222, 222, 222); font-size: 14px;"></span>
+            </div>
+             <span >beat 1.0.0</span>   
+            
+        </div>
+
+
+    <!-- 用户向下滚动图片显示 -->
+            <img src="img/logo/2.gif" alt="加载不出来" class="floating-image" id="floatingImage" title="发财">
+    <script>
+            window.addEventListener('scroll', function () {
+            const image = document.getElementById('floatingImage');
+            if (window.scrollY > 200) {
+            image.classList.add('visible');
+            } else {
+            image.classList.remove('visible');
+            }
+            });
+
+
+            function toggleImage() {
+            // 获取背景层和图片元素
+            var overlay = document.querySelector('.overlay');
+            var popupImage = document.querySelector('.popup-image');
+
+            // 切换显示状态
+            if (overlay.style.display === 'none' || overlay.style.display === '') {
+                overlay.style.display = 'block';
+                popupImage.style.display = 'block';
+            } else {
+                overlay.style.display = 'none';
+                popupImage.style.display = 'none';
+            }
+        }
+
+    </script>
+
+    <!-- JavaScript代码 -->
+    <!-- 运行时间js -->
+    <script type="text/javascript">
+        // 显示网站运行时间
+        function show_runtime() {
+            window.setTimeout("show_runtime()", 1000);
+            var startDate = new Date("10/31/2025 12:00:00"); // 设置网站开始运行的时间
+            var currentDate = new Date(); // 获取当前时间
+            var timeDifference = currentDate.getTime() - startDate.getTime(); // 计算时间差
+            var millisecondsPerDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
+            var days = Math.floor(timeDifference / millisecondsPerDay); // 计算天数
+            var hours = Math.floor((timeDifference % millisecondsPerDay) / (60 * 60 * 1000)); // 计算小时数
+            var minutes = Math.floor((timeDifference % (60 * 60 * 1000)) / (60 * 1000)); // 计算分钟数
+            var seconds = Math.floor((timeDifference % (60 * 1000)) / 1000); // 计算秒数
+            var runtimeSpan = document.getElementById("runtime_span"); // 获取显示运行时间的元素
+            runtimeSpan.innerHTML = "本站已运行: " + days + "天" + hours + "小时" + minutes + "分" + seconds + "秒"; // 显示运行时间
+        }
+        show_runtime(); // 调用函数显示运行时间
+    </script>
+
+
 
     <script>
-        // 获取元素
-        const showImageBtn = document.getElementById('showImageBtn');
-        const imageModal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const closeBtn = document.querySelector('.close');
-
-        // 显示图片
-        showImageBtn.addEventListener('click', function() {
-            imageModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        });
-
-        // 关闭图片
-        closeBtn.addEventListener('click', function() {
-            imageModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-
-        // 点击模态框外部关闭
-        imageModal.addEventListener('click', function(event) {
-            if (event.target === imageModal) {
-                imageModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // 处理图片加载错误
-        modalImage.addEventListener('error', function() {
-            modalImage.alt = '图片加载失败，请检查网络连接或图片地址';
-            modalImage.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYflsIHpnaTlpLHotKXvvIE8L3RleHQ+PC9zdmc+';
+        // 添加卡片加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.glass-card');
+            // 给每个卡片添加动画延迟
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
         });
     </script>
+
+        <!-- 音乐播放器 -->
+        <!-- <audio autoplay loop>
+            <source id="audio" src="周杰伦.mp3" type="audio/mpeg">
+        </audio> -->
 </body>
 </html>

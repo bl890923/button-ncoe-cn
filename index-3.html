@@ -1,0 +1,1610 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>心动时刻 - Blue</title>
+  <link rel="icon" href="img/logo/4.gif" type="image/gif">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Not0+Sans+SC:wght@300;400;500;700&display=swap">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+      font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+    }
+    
+    /* 爱心动画容器 */
+    .heart-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 1.5s ease;
+      z-index: 2;
+    }
+    
+    /* 便签墙容器 */
+    .sticky-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(0deg, #eee 1px, transparent 0),
+                        linear-gradient(90deg, #eee 1px, transparent 0);
+      background-size: 30px 30px;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      z-index: 1;
+    }
+    
+    /* 背景动态粒子 */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    
+    .header {
+      position: absolute;
+      top: 42px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 5;
+      opacity: 0;
+      animation: fadeIn 2s ease 0.5s forwards;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #5a6c8d;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      color: #7d8fb3;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+    
+    .floating-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+    
+    .floating-text {
+      position: absolute;
+      padding: 12px 24px;
+      border-radius: 30px;
+      white-space: nowrap;
+      text-align: center;
+      color: #333;
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+      font-weight: 500;
+      letter-spacing: 1px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: gatherCenter 7s ease-in-out forwards;
+      transition: all 0.4s ease;
+    }
+    
+    .heart-text {
+      animation: heartGather 5s ease-out forwards;
+      z-index: 20;
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes gatherCenter {
+      0% {
+        opacity: 0.9;
+        transform: scale(0.9);
+      }
+      30% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes heartGather {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(0.95) rotate(3deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+      z-index: 5;
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+    
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: rgba(90, 108, 141, 0.6);
+      font-size: 0.9rem;
+      z-index: 5;
+      opacity: 0;
+      animation: fadeIn 2s ease 1.5s forwards;
+    }
+    
+    /* 动态背景 */
+    .dynamic-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.5;
+      animation: float 15s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(20px, 20px) scale(1.1); }
+      50% { transform: translate(-15px, 10px) scale(0.9); }
+      75% { transform: translate(10px, -15px) scale(1.05); }
+    }
+    
+    /* 特殊文字效果 */
+    .special-text {
+      background: linear-gradient(135deg, #ff9a9e, #fecfef) !important;
+      color: white !important;
+      font-weight: 700 !important;
+      box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    /* GO按钮样式 - 重新设计 */
+    .go-button {
+      position: absolute;
+      top:   90%; /* 放在爱心下方 */
+      left: 53%;
+      transform: translate(-50%, -50%) scale(0) rotate(-10deg);
+      padding: 16px 50px;
+      background: linear-gradient(135deg, #ff9a9e, #fecfef);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      box-shadow: 
+        0 10px 30px rgba(255, 154, 158, 0.4),
+        0 0 0 4px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.6);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 200;
+      pointer-events: auto;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    
+    .go-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.8s ease;
+    }
+    
+    .go-button:hover::before {
+      left: 100%;
+    }
+    
+    .go-button.show {
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      animation: buttonPulse 2s infinite;
+    }
+    
+    .go-button:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 
+        0 15px 40px rgba(255, 154, 158, 0.6),
+        0 0 0 6px rgba(255, 255, 255, 0.9),
+        0 0 30px rgba(255, 255, 255, 0.8);
+    }
+    
+    @keyframes buttonPulse {
+      0%, 100% { 
+        box-shadow: 
+          0 10px 30px rgba(255, 154, 158, 0.4),
+          0 0 0 4px rgba(255, 255, 255, 0.8),
+          0 0 20px rgba(255, 255, 255, 0.6);
+      }
+      50% { 
+        box-shadow: 
+          0 10px 40px rgba(255, 154, 158, 0.6),
+          0 0 0 6px rgba(255, 255, 255, 0.9),
+          0 0 30px rgba(255, 255, 255, 0.8);
+      }
+    }
+    
+    /* 音乐控制按钮 */
+    .music-control {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .music-control:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .music-control .icon {
+      width: 24px;
+      height: 24px;
+      position: relative;
+    }
+    
+    .music-control .play-icon,
+    .music-control .pause-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: opacity 0.3s ease;
+    }
+    
+    .music-control .play-icon {
+      opacity: 0;
+    }
+    
+    .music-control .pause-icon {
+      opacity: 1;
+    }
+    
+    .music-control.playing .play-icon {
+      opacity: 0;
+    }
+    
+    .music-control.playing .pause-icon {
+      opacity: 1;
+    }
+    
+    .music-control.paused .play-icon {
+      opacity: 1;
+    }
+    
+    .music-control.paused .pause-icon {
+      opacity: 0;
+    }
+    
+    /* 音乐波纹效果 */
+    .music-waves {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .music-control.playing .music-waves {
+      animation: musicWave 1.5s infinite linear;
+    }
+    
+    @keyframes musicWave {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 154, 158, 0.4);
+        opacity: 1;
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(255, 154, 158, 0);
+        opacity: 0.7;
+      }
+      100% {
+        box-shadow: 0 0 0 25px rgba(255, 154, 158, 0);
+        opacity: 0;
+      }
+    }
+    
+    /* 音乐加载提示 */
+    .music-loading {
+      position: absolute;
+      top: 30px;
+      right: 90px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #5a6c8d;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .music-loading.show {
+      opacity: 1;
+    }
+    
+    /* 便签卡片样式 */
+    .card {
+      position: absolute;
+      width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.2);
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      opacity: 0;
+      transform-origin: center;
+      transition: transform 0.35s ease, opacity 0.35s ease, left 0.35s ease,
+        top 0.35s ease, width 0.35s ease, height 0.35s ease,
+        border-radius 0.35s ease;
+    }
+    
+    .card.dragging {
+      transition: none;
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+    }
+    
+    .card.maximized {
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.4);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.7);
+      cursor: grab;
+      user-select: none;
+      touch-action: pan-y;
+    }
+    
+    .card-header.dragging {
+      cursor: grabbing;
+    }
+    
+    .window-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .window-controls .control {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #ccc;
+      cursor: pointer;
+      outline: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .window-controls .control.close {
+      background: #ff5f57;
+      border-color: #e0443e;
+    }
+    
+    .window-controls .control.minimize {
+      background: #febb2e;
+      border-color: #dea123;
+    }
+    
+    .window-controls .control.maximize {
+      background: #28c840;
+      border-color: #1aab2c;
+    }
+    
+    .window-controls .control::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .card-header:hover .window-controls .control::after {
+      opacity: 0.8;
+    }
+    
+    .window-controls .control.close::after {
+      content: '×';
+      width: auto;
+      height: auto;
+      background: none;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .window-controls .control.minimize::after {
+      width: 6px;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    
+    .window-controls .control.maximize::after {
+      width: 6px;
+      height: 6px;
+      background: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.6) 45%,
+        transparent 45%,
+        transparent 55%,
+        rgba(0, 0, 0, 0.6) 55%,
+        rgba(0, 0, 0, 0.6) 100%
+      );
+    }
+    
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.55);
+      padding-left: 10px;
+      flex: 1;
+    }
+    
+    .card-body {
+      padding: 16px;
+      font-size: 16px;
+      line-height: 1.4;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.72);
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .header p {
+        font-size: 1rem;
+      }
+      
+      .floating-text {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+      
+      .go-button {
+        padding: 14px 40px;
+        font-size: 24px;
+        top: 65%; /* 在移动设备上稍微调整位置 */
+      }
+      
+      .card {
+        width: 180px;
+        border-radius: 10px;
+      }
+      
+      .card-body {
+        padding: 14px;
+        font-size: 14px;
+      }
+      
+      .card-title {
+        font-size: 12px;
+      }
+      
+      .music-control {
+        top: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+      
+      .music-loading {
+        top: 20px;
+        right: 75px;
+        font-size: 11px;
+        padding: 6px 10px;
+      }
+    }
+
+     /* 恐龙图片动态悬浮 */
+        .floating-image {
+                position: fixed;
+                bottom: 35px;
+                left: 15px;
+                width: 100px;
+                height: auto;
+                z-index: 1000;
+                /* opacity: 0; */
+                transition: opacity 0.3s ease-in-out;
+        }
+        /* .floating-image.visible {
+                opacity: 1;
+        } */
+  </style>
+</head>
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+<body>
+    
+  <!-- 爱心动画容器 -->
+  <div class="heart-container" id="heartContainer">
+    <div class="dynamic-bg" id="dynamicBg"></div>
+    <div class="particles" id="particles"></div>
+
+    <img src="img/logo/5.gif" alt="加载不出来" class="floating-image" title="💕">
+    
+    <div class="header">
+      <h1>🥰心动时刻-Blue</h1>
+      <p>让文字如繁星般汇聚成爱
+        <br>江河不变，日月有你
+      </p>
+    </div>
+    
+    <div class="floating-container" id="floatingContainer"></div>
+    
+    <button class="go-button" id="goButton">GO</button>
+    
+    <!-- 音乐控制按钮 -->
+    <div class="music-control playing" id="musicControl">
+      <div class="icon">
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5V19L19 12L8 5Z" fill="#ff9a9e"/>
+          </svg>
+        </div>
+        <div class="pause-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4H10V20H6V4Z" fill="#ff9a9e"/>
+            <path d="M14 4H18V20H14V4Z" fill="#ff9a9e"/>
+          </svg>
+        </div>
+      </div>
+      <div class="music-waves"></div>
+    </div>
+    
+    <!-- 音乐加载提示 -->   
+    <div class="music-loading" id="musicLoading">音乐加载中...</div>
+    
+    <div class="footer">
+      <pre>  © 海兮海兮浩无垠 骏马奔兮奋四蹄 
+  美人美人眼含啵 更有单唇动人心 & Blue  </pre>
+    </div>
+  </div>
+  
+  <!-- 便签墙容器 -->
+  <div class="sticky-container" id="stickyContainer">
+    <div id="board"></div>
+  </div>
+
+  <!-- 音频元素 -->
+  <audio id="bgMusic" autoplay loop preload="auto">
+    <source src="audio/坏女孩.mp3" type="audio/mpeg">
+    您的浏览器不支持音频元素。
+  </audio>
+
+  <script>
+    // 爱心动画相关代码
+    const heartContainer = document.getElementById("heartContainer");
+    const floatingContainer = document.getElementById("floatingContainer");
+    const particlesContainer = document.getElementById("particles");
+    const dynamicBg = document.getElementById("dynamicBg");
+    const goButton = document.getElementById("goButton");
+    const stickyContainer = document.getElementById("stickyContainer");
+    const musicControl = document.getElementById("musicControl");
+    const bgMusic = document.getElementById("bgMusic");
+    const musicLoading = document.getElementById("musicLoading");
+    
+    // 文字列表
+    const texts = [
+      "每次想你星星都亮了",
+      "今夜的梦给你",
+      "你的温柔让我沦陷",
+      "有你在 风都甜甜的",
+      "想牵你的手看日落",
+      "世界因你而美丽",
+      "一瞬也是永恒",
+      "请抱紧我一点",
+      "为你心动不止",
+      "你是我的心动开关",
+      "想和你看海",
+      "甜在风里也在心里",
+      "爱你不止三千遍",
+      "你是我的宇宙",
+      "心跳为你加速",
+      "余生请多指教",
+      "眼中只有你",
+      "温柔藏在细节里"
+    ];
+
+    // 优雅浅色渐变背景列表
+    const gradients = [
+      "linear-gradient(135deg, #a1c4fd, #c2e9fb)",
+      "linear-gradient(135deg, #d4fc79, #96e6a1)",
+      "linear-gradient(135deg, #fbc2eb, #a6c1ee)",
+      "linear-gradient(135deg, #84fab0, #8fd3f4)",
+      "linear-gradient(135deg, #fdcbf1, #e6dee9)",
+      "linear-gradient(135deg, #a3bded, #6991c7)",
+      "linear-gradient(135deg, #fad0c4, #ffd1ff)",
+      "linear-gradient(135deg, #ff9a9e, #fecfef)",
+      "linear-gradient(135deg, #f6d365, #fda085)",
+      "linear-gradient(135deg, #e0c3fc, #8ec5fc)",
+      "linear-gradient(135deg, #cd9cf2, #f6f3ff)",
+      "linear-gradient(135deg, #a8edea, #fed6e3)"
+    ];
+
+    let isHeartFormed = false;
+    let randomInterval;
+    let heartElements = [];
+    let animationId;
+    let isMusicPlaying = true;
+    let userInteracted = false;
+
+    // 初始化背景粒子
+    function initParticles() {
+      const particleCount = 40;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        
+        // 随机位置
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        
+        // 随机大小
+        const size = 2 + Math.random() * 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // 随机颜色
+        const colors = ['rgba(255, 255, 255, 0.7)', 'rgba(200, 220, 255, 0.6)', 'rgba(255, 220, 240, 0.6)'];
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        // 随机动画
+        const duration = 15 + Math.random() * 20;
+        const delay = Math.random() * 5;
+        
+        particle.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // 初始化动态背景
+    function initDynamicBackground() {
+      const circleCount = 5;
+      const colors = [
+        'rgba(161, 196, 253, 0.3)',
+        'rgba(212, 252, 121, 0.3)',
+        'rgba(251, 194, 235, 0.3)',
+        'rgba(132, 250, 176, 0.3)',
+        'rgba(253, 203, 241, 0.3)'
+      ];
+      
+      for (let i = 0; i < circleCount; i++) {
+        const circle = document.createElement("div");
+        circle.className = "bg-circle";
+        
+        // 随机位置
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        circle.style.left = `${x}px`;
+        circle.style.top = `${y}px`;
+        
+        // 随机大小
+        const size = 100 + Math.random() * 300;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        
+        // 随机颜色
+        circle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        // 随机动画延迟
+        const delay = Math.random() * 10;
+        circle.style.animationDelay = `${delay}s`;
+        
+        dynamicBg.appendChild(circle);
+      }
+    }
+
+    // 生成爱心形状的点 - 修复居中问题
+    function generateHeartPoints() {
+      const points = [];
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const size = Math.min(window.innerWidth, window.innerHeight) * 0.25;
+      
+      // 使用适中的步长，使爱心适度密集
+      for (let t = 0; t <= 2 * Math.PI; t += 0.08) {
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+        
+        points.push({
+          x: centerX + x * size / 16,
+          y: centerY + y * size / 16
+        });
+      }
+      
+      return points;
+    }
+
+    // 创建闪烁效果
+    function createSparkle(x, y) {
+      const sparkle = document.createElement("div");
+      sparkle.className = "sparkle";
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+      floatingContainer.appendChild(sparkle);
+      
+      // 随机大小
+      const size = 2 + Math.random() * 4;
+      sparkle.style.width = `${size}px`;
+      sparkle.style.height = `${size}px`;
+      
+      // 随机颜色
+      const colors = ['#ff9a9e', '#a1c4fd', '#d4fc79', '#fbc2eb', '#84fab0'];
+      sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+      
+      // 闪烁动画
+      sparkle.animate([
+        { opacity: 0, transform: 'scale(0) rotate(0deg)' },
+        { opacity: 1, transform: 'scale(1.5) rotate(180deg)' },
+        { opacity: 0, transform: 'scale(0) rotate(360deg)' }
+      ], {
+        duration: 1000 + Math.random() * 1000,
+        easing: 'ease-out'
+      });
+      
+      // 移除元素
+      setTimeout(() => {
+        if (sparkle.parentNode) {
+          sparkle.remove();
+        }
+      }, 2000);
+    }
+
+    function createFloatingText() {
+      if (isHeartFormed) return;
+      
+      const textEl = document.createElement("div");
+      textEl.className = "floating-text";
+      
+      // 随机文字内容
+      textEl.textContent = texts[Math.floor(Math.random() * texts.length)];
+      
+      // 从各个方向生成：上下左右随机位置
+      const direction = Math.floor(Math.random() * 4); // 0:上, 1:右, 2:下, 3:左
+      let x, y;
+      const offset = 80; // 超出屏幕的距离
+      
+      switch(direction) {
+        case 0: // 上边
+          x = Math.random() * window.innerWidth;
+          y = -offset;
+          break;
+        case 1: // 右边
+          x = window.innerWidth + offset;
+          y = Math.random() * window.innerHeight;
+          break;
+        case 2: // 下边
+          x = Math.random() * window.innerWidth;
+          y = window.innerHeight + offset;
+          break;
+        case 3: // 左边
+          x = -offset;
+          y = Math.random() * window.innerHeight;
+          break;
+      }
+      
+      textEl.style.left = `${x}px`;
+      textEl.style.top = `${y}px`;
+      
+      // 随机字体大小
+      const fontSize = 14 + Math.random() * 4;
+      textEl.style.fontSize = `${fontSize}px`;
+      
+      // 随机浅色渐变背景，偶尔使用特殊效果
+      const useSpecial = Math.random() > 0.85;
+      if (useSpecial) {
+        textEl.classList.add('special-text');
+      } else {
+        textEl.style.background = gradients[Math.floor(Math.random() * gradients.length)];
+      }
+      
+      // 随机动画时长
+      const duration = 5 + Math.random() * 3;
+      textEl.style.animationDuration = `${duration}s`;
+      
+      floatingContainer.appendChild(textEl);
+      
+      // 创建闪烁效果
+      setTimeout(() => {
+        createSparkle(x, y);
+      }, 100);
+      
+      // 动画结束后移除元素
+      setTimeout(() => {
+        if (textEl.parentNode) {
+          textEl.remove();
+        }
+      }, duration * 1000);
+    }
+
+    function createHeartText(point, index) {
+      const textEl = document.createElement("div");
+      textEl.className = "floating-text heart-text";
+      
+      // 随机文字内容
+      textEl.textContent = texts[Math.floor(Math.random() * texts.length)];
+      
+      // 从屏幕边缘随机位置开始
+      const direction = Math.floor(Math.random() * 4);
+      let startX, startY;
+      const offset = 100;
+      
+      switch(direction) {
+        case 0: // 上边
+          startX = Math.random() * window.innerWidth;
+          startY = -offset;
+          break;
+        case 1: // 右边
+          startX = window.innerWidth + offset;
+          startY = Math.random() * window.innerHeight;
+          break;
+        case 2: // 下边
+          startX = Math.random() * window.innerWidth;
+          startY = window.innerHeight + offset;
+          break;
+        case 3: // 左边
+          startX = -offset;
+          startY = Math.random() * window.innerHeight;
+          break;
+      }
+      
+      textEl.style.left = `${startX}px`;
+      textEl.style.top = `${startY}px`;
+      
+      // 随机字体大小
+      const fontSize = 14 + Math.random() * 4;
+      textEl.style.fontSize = `${fontSize}px`;
+      
+      // 随机浅色渐变背景
+      textEl.style.background = gradients[Math.floor(Math.random() * gradients.length)];
+      
+      floatingContainer.appendChild(textEl);
+      
+      // 使用动画移动到爱心位置 - 修复元素居中问题
+      setTimeout(() => {
+        // 获取元素的实际尺寸
+        const rect = textEl.getBoundingClientRect();
+        const centerX = point.x - rect.width / 2;
+        const centerY = point.y - rect.height / 2;
+        
+        textEl.style.transition = `all 3s cubic-bezier(0.2, 0.8, 0.3, 1) ${index * 0.15}s`;
+        textEl.style.left = `${centerX}px`;
+        textEl.style.top = `${centerY}px`;
+        
+        // 添加轻微脉动效果
+        setTimeout(() => {
+          textEl.classList.add('pulse');
+        }, 3000 + index * 150);
+      }, 100);
+      
+      heartElements.push(textEl);
+    }
+
+    function startHeartAnimation() {
+      const heartPoints = generateHeartPoints();
+      const pointsCount = heartPoints.length;
+      
+      // 选择部分点形成空心爱心 - 适度密集
+      const selectedPoints = [];
+      for (let i = 0; i < pointsCount; i += 2) {
+        selectedPoints.push(heartPoints[i]);
+      }
+      
+      // 按顺序创建爱心元素 - 适中的出现速度
+      selectedPoints.forEach((point, index) => {
+        setTimeout(() => {
+          createHeartText(point, index);
+          createSparkle(point.x, point.y);
+        }, index * 200);
+      });
+      
+      // 当爱心完成后显示GO按钮
+      setTimeout(() => {
+        isHeartFormed = true;
+        clearInterval(randomInterval);
+        cancelAnimationFrame(animationId);
+        
+        // 显示GO按钮
+        setTimeout(() => {
+          goButton.classList.add('show');
+        }, 500);
+      }, selectedPoints.length * 200 + 3000);
+    }
+
+    // 爱心散开动画
+    function scatterHeart() {
+      // 为每个爱心元素设置随机散开方向
+      heartElements.forEach((heartEl, index) => {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 1000 + Math.random() * 500;
+        const targetX = heartEl.offsetLeft + Math.cos(angle) * distance;
+        const targetY = heartEl.offsetTop + Math.sin(angle) * distance;
+        
+        // 设置散开动画
+        setTimeout(() => {
+          heartEl.style.transition = `all 2s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s`;
+          heartEl.style.left = `${targetX}px`;
+          heartEl.style.top = `${targetY}px`;
+          heartEl.style.opacity = '0';
+        }, index * 50);
+      });
+      
+      // 动画完成后切换到便签墙
+      setTimeout(() => {
+        // 隐藏爱心动画容器
+        heartContainer.style.opacity = '0';
+        
+        // 显示便签墙容器
+        setTimeout(() => {
+          stickyContainer.style.opacity = '1';
+          startStickyWall();
+        }, 1000);
+      }, 2000);
+    }
+
+    // 音乐控制功能
+    function toggleMusic() {
+      if (!userInteracted) {
+        userInteracted = true;
+        // 尝试播放音乐
+        playMusic();
+        return;
+      }
+      
+      if (isMusicPlaying) {
+        bgMusic.pause();
+        musicControl.classList.remove('playing');
+        musicControl.classList.add('paused');
+      } else {
+        playMusic();
+      }
+      isMusicPlaying = !isMusicPlaying;
+    }
+
+    // 播放音乐
+    function playMusic() {
+      bgMusic.play().then(() => {
+        musicControl.classList.add('playing');
+        musicControl.classList.remove('paused');
+        isMusicPlaying = true;
+        musicLoading.classList.remove('show');
+      }).catch(e => {
+        console.log('播放音乐失败:', e);
+        musicControl.classList.remove('playing');
+        musicControl.classList.add('paused');
+        isMusicPlaying = false;
+        musicLoading.textContent = '点击播放音乐';
+        musicLoading.classList.add('show');
+      });
+    }
+
+    // 便签墙相关代码
+    const board = document.getElementById('board')
+    const messages = [
+      '保持好心情',
+      '多喝水哦',
+      '今天辛苦啦',
+      '早点休息',
+      '记得吃水果',
+      '加油，你可以的',
+      '祝你顺利',
+      '保持微笑呀',
+      '愿所有烦恼都消失',
+      '期待下一次见面',
+      '梦想总会实现',
+      '天气冷了，多穿衣服',
+      '记得给自己放松',
+      '每天都要元气满满',
+      '今天也要好好爱自己',
+      '适当休息一下',
+      "每次想你星星都亮了",
+      "今夜的梦给你",
+      "你的温柔让我沦陷",
+      "有你在 风都甜甜的",
+      "想牵你的手看日落",
+      "世界因你而软美丽",
+      "一瞬也是永恒",
+      "请抱紧我一点",
+      "为你心动不止",
+      "你是我的心动开关",
+      "想和你看海",
+      "甜在风里也在心里",
+      "爱你不止三千遍",
+      "你是我的宇宙",
+      "心跳为你加速",
+      "余生请多指教",
+      "眼中只有你",
+      "温柔藏在细节里"
+    ]
+
+    const colors = [
+      '#ffe0e3',
+      '#c7f0ff',
+      '#ffd8a8',
+      '#d9f2d9',
+      '#e5d7ff',
+      '#f9f7d9',
+      '#d2f0f8',
+      '#ffd4f5'
+    ]
+
+    const cardStates = new WeakMap()
+    const MAXIMIZED_LAYER = 1000000
+    let activeMaximizedCard = null
+    let isMobile =
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.innerWidth <= 768
+    const maxCards = isMobile ? 120 : 180
+    const initialCardCount = isMobile ? 18 : 30
+    const spawnInterval = isMobile ? 700 : 400
+    let zIndexCursor = 200
+
+    function randomFrom(array) {
+      return array[Math.floor(Math.random() * array.length)]
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max)
+    }
+
+    function applyTransform(card, state) {
+      const scale = state.scale ?? 1
+      const translateX = state.translateX ?? 0
+      const translateY = state.translateY ?? 0
+      const angle = state.angle ?? 0
+      card.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${angle}deg)`
+    }
+
+    function bringToFront(card) {
+      if (card === activeMaximizedCard) {
+        card.style.zIndex = MAXIMIZED_LAYER
+        return
+      }
+
+      zIndexCursor += 1
+      if (activeMaximizedCard && zIndexCursor >= MAXIMIZED_LAYER) {
+        zIndexCursor = MAXIMIZED_LAYER - 1
+      }
+
+      card.style.zIndex = zIndexCursor
+    }
+
+    function setupCardInteractions(card) {
+      const header = card.querySelector('.card-header')
+      const closeBtn = card.querySelector('.control.close')
+      const minimizeBtn = card.querySelector('.control.minimize')
+      const maximizeBtn = card.querySelector('.control.maximize')
+
+      closeBtn.addEventListener('click', event => {
+        event.stopPropagation()
+        closeCard(card)
+      })
+
+      minimizeBtn.addEventListener('click', event => {
+        event.stopPropagation()
+        minimizeCard(card)
+      })
+
+      maximizeBtn.addEventListener('click', event => {
+        event.stopPropagation()
+        toggleMaximize(card)
+      })
+
+      header.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'touch') return
+        startDrag(event, card)
+      })
+
+      card.addEventListener('pointerdown', () => {
+        bringToFront(card)
+      })
+
+      header.addEventListener('dblclick', event => {
+        if (!event.target.closest('.control')) {
+          toggleMaximize(card)
+        }
+      })
+    }
+
+    function closeCard(card) {
+      const state = cardStates.get(card)
+      if (!state || state.closing) return
+      if (card === activeMaximizedCard) {
+        activeMaximizedCard = null
+      }
+      state.closing = true
+      state.scale = 0.1
+      card.style.opacity = '0'
+      applyTransform(card, state)
+
+      const handleTransitionEnd = event => {
+        if (event.propertyName === 'opacity') {
+          card.removeEventListener('transitionend', handleTransitionEnd)
+          card.remove()
+        }
+      }
+
+      card.addEventListener('transitionend', handleTransitionEnd)
+    }
+
+    function minimizeCard(card) {
+      const state = cardStates.get(card)
+      if (!state || state.closing) return
+
+      const runMinimize = () => {
+        state.closing = true
+        bringToFront(card)
+        const bottom = Math.max(window.innerHeight - 24, 0)
+        const targetLeft = clamp(
+          state.left,
+          16,
+          Math.max(window.innerWidth - card.offsetWidth - 16, 16)
+        )
+
+        state.left = targetLeft
+        state.top = bottom
+        state.scale = 0.1
+        state.angle = 0
+        card.style.left = `${targetLeft}px`
+        card.style.top = `${bottom}px`
+        card.style.opacity = '0.35'
+        applyTransform(card, state)
+
+        const handleTransitionEnd = event => {
+          if (event.propertyName === 'transform') {
+            card.removeEventListener('transitionend', handleTransitionEnd)
+            card.remove()
+          }
+        }
+
+        card.addEventListener('transitionend', handleTransitionEnd)
+      }
+
+      if (state.maximized) {
+        activeMaximizedCard = null
+        state.maximized = false
+        card.classList.remove('maximized')
+        card.style.borderRadius = '12px'
+        state.left = 0
+        state.top = 0
+        state.scale = 1
+        state.angle = 0
+        applyTransform(card, state)
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(runMinimize)
+        })
+        return
+      }
+
+      runMinimize()
+    }
+
+    function toggleMaximize(card) {
+      const state = cardStates.get(card)
+      if (!state || state.closing) return
+
+      if (state.maximized) {
+        restoreFromMaximize(card, state)
+      } else {
+        maximizeCard(card, state)
+      }
+    }
+
+    function maximizeCard(card, state) {
+      state.beforeMaximize = {
+        left: state.left,
+        top: state.top,
+        scale: state.scale ?? 1,
+        width: card.offsetWidth,
+        height: card.offsetHeight,
+        angle: state.angle ?? 0
+      }
+
+      card.classList.add('maximized')
+      card.style.left = '0px'
+      card.style.top = '0px'
+      card.style.width = `${window.innerWidth}px`
+      card.style.height = `${window.innerHeight}px`
+      card.style.borderRadius = '0'
+
+      state.left = 0
+      state.top = 0
+      state.scale = 1
+      state.angle = 0
+      applyTransform(card, state)
+      activeMaximizedCard = card
+      bringToFront(card)
+      state.maximized = true
+    }
+
+    function restoreFromMaximize(card, state) {
+      const previous = state.beforeMaximize
+      if (!previous) return
+
+      card.classList.remove('maximized')
+      card.style.left = `${previous.left}px`
+      card.style.top = `${previous.top}px`
+      card.style.width = `${previous.width}px`
+      card.style.height = `${previous.height}px`
+      card.style.borderRadius = '12px'
+
+      state.left = previous.left
+      state.top = previous.top
+      state.scale = previous.scale ?? 1
+      state.angle = previous.angle ?? state.angle ?? 0
+      applyTransform(card, state)
+      state.maximized = false
+      if (activeMaximizedCard === card) {
+        activeMaximizedCard = null
+      }
+      bringToFront(card)
+      state.lastPosition = { left: state.left, top: state.top }
+
+      setTimeout(() => {
+        if (!state.maximized) {
+          card.style.width = ''
+          card.style.height = ''
+          state.width = card.offsetWidth
+          state.height = card.offsetHeight
+        }
+      }, 360)
+    }
+
+    function startDrag(event, card) {
+      const control = event.target.closest('.control')
+      if (control) return
+
+      const state = cardStates.get(card)
+      if (!state || state.closing || state.maximized) return
+
+      event.preventDefault()
+      bringToFront(card)
+
+      const header = card.querySelector('.card-header')
+      card.classList.add('dragging')
+      header.classList.add('dragging')
+
+      state.dragging = true
+      state.dragOffsetX = event.clientX - state.left
+      state.dragOffsetY = event.clientY - state.top
+
+      let dragFrame = null
+      let pendingLeft = state.left
+      let pendingTop = state.top
+
+      const commitDrag = () => {
+        dragFrame = null
+        const maxLeft = Math.max(window.innerWidth - card.offsetWidth, 0)
+        const maxTop = Math.max(window.innerHeight - card.offsetHeight, 0)
+        state.left = clamp(pendingLeft, -card.offsetWidth * 0.4, maxLeft)
+        state.top = clamp(pendingTop, -card.offsetHeight * 0.4, maxTop)
+        card.style.left = `${state.left}px`
+        card.style.top = `${state.top}px`
+      }
+
+      const handlePointerMove = moveEvent => {
+        if (!state.dragging) return
+
+        pendingLeft = moveEvent.clientX - state.dragOffsetX
+        pendingTop = moveEvent.clientY - state.dragOffsetY
+        if (dragFrame === null) {
+          dragFrame = requestAnimationFrame(commitDrag)
+        }
+      }
+
+      const handlePointerUp = () => {
+        state.dragging = false
+        state.lastPosition = { left: state.left, top: state.top }
+        card.classList.remove('dragging')
+        header.classList.remove('dragging')
+        if (dragFrame !== null) {
+          cancelAnimationFrame(dragFrame)
+          commitDrag()
+        }
+        document.removeEventListener('pointermove', handlePointerMove)
+        document.removeEventListener('pointerup', handlePointerUp)
+      }
+
+      document.addEventListener('pointermove', handlePointerMove)
+      document.addEventListener('pointerup', handlePointerUp)
+    }
+
+    function createCard() {
+      const card = document.createElement('div')
+      card.className = 'card'
+
+      const color = randomFrom(colors)
+      const angleRange = isMobile ? 6 : 10
+      const angle = (Math.random() - 0.5) * angleRange
+      const cardWidth = isMobile ? 180 : 220
+      const cardHeight = isMobile ? 130 : 140
+      const horizontalMargin = isMobile ? 12 : 16
+      const verticalMargin = isMobile ? 12 : 20
+      const left =
+        horizontalMargin +
+        Math.random() *
+          Math.max(window.innerWidth - cardWidth - horizontalMargin * 2, 0)
+      const top =
+        verticalMargin +
+        Math.random() *
+          Math.max(window.innerHeight - cardHeight - verticalMargin * 2, 0)
+
+      card.style.background = color
+      card.style.left = `${left}px`
+      card.style.top = `${top}px`
+      if (activeMaximizedCard && zIndexCursor >= MAXIMIZED_LAYER - 2) {
+        zIndexCursor = MAXIMIZED_LAYER - 2
+      }
+      card.style.zIndex = ++zIndexCursor
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="window-controls">
+            <button class="control close" type="button" aria-label="关闭"></button>
+            <button class="control minimize" type="button" aria-label="最小化"></button>
+            <button class="control maximize" type="button" aria-label="最大化"></button>
+          </div>
+          <div class="card-title">温馨提示</div>
+        </div>
+        <div class="card-body">${randomFrom(messages)}</div>
+      `
+
+      const state = {
+        angle,
+        scale: isMobile ? 0.85 : 0.7,
+        translateX: 0,
+        translateY: 0,
+        left,
+        top,
+        maximized: false,
+        closing: false,
+        lastPosition: { left, top }
+      }
+
+      cardStates.set(card, state)
+      applyTransform(card, state)
+      board.appendChild(card)
+
+      state.width = card.offsetWidth
+      state.height = card.offsetHeight
+
+      requestAnimationFrame(() => {
+        state.scale = 1
+        applyTransform(card, state)
+        card.style.opacity = '1'
+      })
+
+      setupCardInteractions(card)
+
+      if (board.children.length > maxCards) {
+        const oldest = board.firstElementChild
+        if (oldest && oldest !== card) {
+          oldest.remove()
+        }
+      }
+    }
+
+    function startStickyWall() {
+      document.body.classList.toggle('is-mobile', isMobile);
+
+      for (let i = 0; i < initialCardCount; i++) {
+        setTimeout(createCard, i * (isMobile ? 60 : 40));
+      }
+
+      setInterval(() => {
+        createCard();
+      }, spawnInterval);
+
+      window.addEventListener('resize', () => {
+        isMobile =
+          window.matchMedia('(pointer: coarse)').matches ||
+          window.innerWidth <= 768;
+        document.body.classList.toggle('is-mobile', isMobile);
+
+        document.querySelectorAll('.card.maximized').forEach(card => {
+          card.style.width = `${window.innerWidth}px`;
+          card.style.height = `${window.innerHeight}px`;
+        });
+      });
+    }
+
+    // 初始化爱心动画
+    initParticles();
+    initDynamicBackground();
+
+    // 初始创建更多元素
+    for (let i = 0; i < 30; i++) {
+      setTimeout(createFloatingText, i * 200);
+    }
+
+    // 持续生成更多新元素 - 增加频率
+    randomInterval = setInterval(createFloatingText, 400);
+
+    // 延迟后开始爱心动画
+    setTimeout(startHeartAnimation, 8000);
+
+    // GO按钮点击事件
+    goButton.addEventListener('click', scatterHeart);
+
+    // 音乐控制按钮点击事件
+    musicControl.addEventListener('click', toggleMusic);
+
+    // 页面点击事件 - 用于触发音频播放
+    document.addEventListener('click', function() {
+      if (!userInteracted) {
+        userInteracted = true;
+        // 用户首次点击后尝试播放音乐
+        playMusic();
+      }
+    });
+
+    // 音乐加载事件
+    bgMusic.addEventListener('loadstart', function() {
+      musicLoading.classList.add('show');
+    });
+    
+    bgMusic.addEventListener('canplaythrough', function() {
+      musicLoading.classList.remove('show');
+    });
+    
+    bgMusic.addEventListener('error', function() {
+      musicLoading.textContent = '音乐加载失败';
+      musicLoading.classList.add('show');
+      musicControl.classList.remove('playing');
+      musicControl.classList.add('paused');
+    });
+
+    // 尝试自动播放音乐
+    window.addEventListener('load', function() {
+      // 设置音量
+      bgMusic.volume = 0.6;
+      
+      // 延迟一下再尝试播放，确保页面已加载
+      setTimeout(() => {
+        playMusic();
+      }, 1000);
+    });
+
+    // 窗口自适应
+    window.addEventListener("resize", () => {
+      floatingContainer.style.width = window.innerWidth + "px";
+      floatingContainer.style.height = window.innerHeight + "px";
+    });
+
+    // 使用requestAnimationFrame优化性能
+    function animate() {
+      animationId = requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
